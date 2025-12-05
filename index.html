@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>バーチャル税務調査～経理丸投げちゃん～</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Toast Container (アクセシビリティ対応) -->
+    <div class="toast-container" id="toastContainer" role="status" aria-live="polite" aria-atomic="true"></div>
+
+    <div class="container">
+        <header class="header">
+            <h1>📋 バーチャル税務調査～経理丸投げちゃん～</h1>
+            <p>freee × AI で経理チェックの下準備をお手伝い</p>
+        </header>
+
+        <!-- Security Warning -->
+        <div class="card" style="border-left: 4px solid var(--error); background: rgba(254, 226, 226, 0.5);">
+            <div style="display: flex; gap: 1rem; align-items: flex-start;">
+                <span style="font-size: 1.5rem;">⚠️</span>
+                <div>
+                    <h3 style="color: var(--error); margin-bottom: 0.5rem;">ローカル環境専用ツール</h3>
+                    <p class="text-sm text-muted mb-0">
+                        このツールはご自身のPC内（ローカル環境）でのみ使用してください。
+                        GitHubへのプッシュやクラウドサーバーへのデプロイは絶対に行わないでください。
+                        APIトークンや機密性の高い会計データが含まれます。
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Token Settings -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon">🔑</div>
+                <h2 class="card-title">freee API 接続設定</h2>
+            </div>
+
+            <div class="input-group">
+                <div style="flex: 1;">
+                    <label for="accessToken" class="input-label">アクセストークン</label>
+                    <input type="password" id="accessToken" class="input-field"
+                           placeholder="アクセストークン（6時間で期限切れ）"
+                           aria-describedby="tokenHelp">
+                    <p id="tokenHelp" class="text-sm text-muted mt-2">
+                        <strong>初回:</strong> <a href="https://app.secure.freee.co.jp/developers/start_guides/new_company" target="_blank"
+                            style="color: var(--primary);">https://app.secure.freee.co.jp/developers/start_guides/new_company</a> からアクセストークンを取得<br>
+                        <strong>2回目以降:</strong> 初回申請時に届いたメールからアクセストークンを再取得
+                    </p>
+                </div>
+            </div>
+
+            <div id="tokenTimer" class="badge hidden" style="display: inline-flex; align-items: center; gap: 0.5rem;">
+                <span id="tokenTimerIcon"></span>
+                <span id="tokenTimerText"></span>
+            </div>
+        </div>
+
+        <!-- CSV Upload -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon">📊</div>
+                <h2 class="card-title">銀行入出金 CSV</h2>
+            </div>
+
+            <div class="drop-zone" id="csvDropZone" tabindex="0" role="button"
+                 aria-label="CSVファイルをアップロード。クリックまたはEnterキーでファイル選択">
+                <div class="drop-zone-content">
+                    <div class="drop-icon">📂</div>
+                    <div class="drop-text">CSVファイルをドラッグ＆ドロップ</div>
+                    <div class="drop-hint">クリック / Enterキーでファイルを選択</div>
+                    <div class="drop-formats">全銀CSVではなく、銀行オリジナルのCSVのほうがAIは読み込みしやすいです。<br>freeeと照合したい対象期間を指定してエクスポートしてください</div>
+                </div>
+                <input type="file" id="csvInput" accept=".csv" multiple hidden aria-hidden="true">
+            </div>
+
+            <div class="progress-container" id="csvProgress">
+                <div class="progress-bar"></div>
+            </div>
+
+            <div class="file-list" id="csvFileList"></div>
+        </div>
+
+        <!-- Docs Upload -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon">📁</div>
+                <h2 class="card-title">証憑・法人書類</h2>
+            </div>
+
+            <div class="drop-zone" id="docsDropZone" tabindex="0" role="button"
+                 aria-label="書類ファイルをアップロード。クリックまたはEnterキーでファイル選択">
+                <div class="drop-zone-content">
+                    <div class="drop-icon">📋</div>
+                    <div class="drop-text">書類フォルダごとドラッグ＆ドロップ</div>
+                    <div class="drop-hint">クリック / Enterキーでファイルを選択</div>
+                    <div class="drop-formats"><strong>💡 複数書類を1つのフォルダにまとめてアップすると楽です</strong><br>対応形式: PDF, TXT（上限: 1ファイル50MB、1回100件まで）</div>
+                </div>
+                <input type="file" id="docsInput" accept=".pdf,.txt,.md,.json" multiple
+                    hidden aria-hidden="true">
+                <input type="file" id="docsFolderInput" webkitdirectory hidden aria-hidden="true">
+            </div>
+
+            <div class="progress-container" id="docsProgress">
+                <div class="progress-bar"></div>
+            </div>
+
+            <div class="file-list" id="docsFileList"></div>
+        </div>
+
+        <!-- AI Prompt Hint -->
+        <div class="card"
+            style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(236, 72, 153, 0.1) 100%); border: none;">
+            <div style="display: flex; gap: 1rem; align-items: flex-start;">
+                <div class="card-icon" style="background: white; color: var(--primary);">💡</div>
+                <div>
+                    <h3 style="font-size: 1rem; margin-bottom: 0.5rem;">次のステップ（AIに依頼する方法）</h3>
+                    <p class="text-sm text-muted" style="margin-bottom: 0.75rem;">
+                        ファイルをアップロードしたら、<strong>Claude Code</strong>（推奨）でこのフォルダを開いて依頼してください。
+                    </p>
+                    <p class="text-sm text-muted" style="margin: 0 0 0.75rem 0; font-size: 0.8rem; opacity: 0.8;">
+                        ※ Gemini CLI / GitHub Copilot でも動作しますが、処理が途中で止まることがあります
+                    </p>
+                    <p class="text-sm text-muted" style="margin-bottom: 0.5rem;">
+                        AIにこう伝えてください：
+                    </p>
+                    <code style="display: block; background: rgba(255,255,255,0.6); padding: 0.5rem 0.75rem; border-radius: 4px; color: var(--primary); font-size: 0.9rem;">
+                        「AI_GUIDE.md と FREEE_API_GUIDE.md と TROUBLESHOOTING.md を読んで、ワークフローどおりに税務チェックして」
+                    </code>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Disclaimer -->
+        <div class="card" style="border-left: 4px solid #f59e0b; background: rgba(254, 243, 199, 0.5);">
+            <div style="display: flex; gap: 1rem; align-items: flex-start;">
+                <span style="font-size: 1.5rem;">⚠️</span>
+                <div>
+                    <h3 style="color: #b45309; margin-bottom: 0.5rem;">ご注意ください</h3>
+                    <p class="text-sm text-muted mb-0">
+                        <strong>AIは完璧ではありません。</strong>このツールはあくまで経理チェックの補助です。<br>
+                        最終的な判断は必ず<strong>税理士や専門家に確認</strong>してください。<br>
+                        AIの判断を鵜呑みにせず、重要な取引は根拠資料と照合することをお勧めします。
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <footer style="text-align: center; color: var(--text-muted); font-size: 0.8rem; margin-top: 3rem;">
+            バーチャル税務調査～経理丸投げちゃん～ v1.0.0
+        </footer>
+    </div>
+
+    <script src="/static/js/script.js"></script>
+</body>
+
+</html>
+<!--
+バーチャル税務調査～経理丸投げちゃん～
+Copyright (c) 2025 株式会社CLAN (https://clanbiz.net/keiri-marunage-chan-LP/)
+Licensed under MIT License
+-->

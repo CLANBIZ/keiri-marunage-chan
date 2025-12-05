@@ -1,0 +1,71 @@
+# Environment
+.env
+.env.local
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+*.egg
+.venv/
+venv/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Streamlit
+.streamlit/secrets.toml
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
+tmp/
+temp/
+
+# Uploaded files (user data)
+uploads/
+user_data/
+data/
+!data/*.example.json
+!data/uploads/docs/_INDEX.example.json
+reports/
+
+# API tokens (never commit!)
+*_token.txt
+*_token.json
+credentials.json
+freee_config.json
+mcp_config.json
+**/mcp_config.json
+
+# Personal/Internal notes
+HANDOVER.md
+IMPROVEMENTS.md
+note/
+
+# Landing page (managed separately on company website)
+landing/
+
+# Test cache
+.pytest_cache/
+
+# Claude settings (personal)
+.claude/
