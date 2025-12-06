@@ -705,3 +705,15 @@ server.pyはローカルホスト（127.0.0.1）のみでリッスンするの�
 ---
 
 *このドキュメントはAIエージェント向けです。ユーザー向け情報はREADME.mdを参照してください。*
+
+---
+
+### フォーク時のお願い
+
+改変・再配布する場合は、以下のクレジット表記を記載してください：
+
+```
+Original work: バーチャル税務調査～経理丸投げちゃん～
+https://github.com/CLANBIZ/keiri-marunage-chan
+Copyright (c) 2025 株式会社CLAN (https://clanbiz.net/keiri-marunage-chan-LP/)
+```

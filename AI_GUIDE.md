@@ -976,3 +976,15 @@ pattern: data/uploads/docs/_INDEX.json
 
 *v1.0.0 - このドキュメントは他のAIが読んでも理解できるよう設計されています。*
 *技術仕様は `FREEE_API_GUIDE.md`、発見パターンは `CASE_STUDY.md` を参照。*
+
+---
+
+### フォーク時のお願い
+
+改変・再配布する場合は、以下のクレジット表記を記載してください：
+
+```
+Original work: バーチャル税務調査～経理丸投げちゃん～
+https://github.com/CLANBIZ/keiri-marunage-chan
+Copyright (c) 2025 株式会社CLAN (https://clanbiz.net/keiri-marunage-chan-LP/)
+```

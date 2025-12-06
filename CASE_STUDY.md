@@ -413,3 +413,15 @@ for deal in deals:
 
 *v1.0.0 - 本ドキュメントは一般的なパターンを記載した参考情報です。*
 *具体的な対応は税理士にご相談ください。*
+
+---
+
+### フォーク時のお願い
+
+改変・再配布する場合は、以下のクレジット表記を記載してください：
+
+```
+Original work: バーチャル税務調査～経理丸投げちゃん～
+https://github.com/CLANBIZ/keiri-marunage-chan
+Copyright (c) 2025 株式会社CLAN (https://clanbiz.net/keiri-marunage-chan-LP/)
+```

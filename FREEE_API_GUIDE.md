@@ -314,3 +314,15 @@ API_BASE = "https://api.freee.co.jp/api/1"
 - ユーザーが「入れ替えた」と言うまで待機すること
 - 入れ替え後は再度 `/api/1/companies` で確認してから作業を再開すること
 
+---
+
+### フォーク時のお願い
+
+改変・再配布する場合は、以下のクレジット表記を記載してください：
+
+```
+Original work: バーチャル税務調査～経理丸投げちゃん～
+https://github.com/CLANBIZ/keiri-marunage-chan
+Copyright (c) 2025 株式会社CLAN (https://clanbiz.net/keiri-marunage-chan-LP/)
+```
+

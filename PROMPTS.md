@@ -7,6 +7,8 @@ Claude Codeに伝えるだけで経理チェックができるプロンプト集
 ## 🚀 セットアップ
 
 ### 1. 初回セットアップ（クローン〜サーバー起動）
+VSCodeかAntigravityでClaude Codeを立ち上げ、以下をコピペ：
+
 「https://github.com/CLANBIZ/keiri-marunage-chan をクローンして、python server.py を実行して http://localhost:5000 をブラウザで開いて。うまく行かない場合 AI_GUIDE.md と FREEE_API_GUIDE.md と TROUBLESHOOTING.md を読んで解決策を探して」
 
 ### 2. 税務チェック開始
@@ -130,3 +132,15 @@ Claude Codeに伝えるだけで経理チェックができるプロンプト集
 
 *このプロンプト集は随時更新されます。*
 *プロンプトはそのままコピペしてClaude Codeに伝えてください。*
+
+---
+
+### フォーク時のお願い
+
+改変・再配布する場合は、以下のクレジット表記を記載してください：
+
+```
+Original work: バーチャル税務調査～経理丸投げちゃん～
+https://github.com/CLANBIZ/keiri-marunage-chan
+Copyright (c) 2025 株式会社CLAN (https://clanbiz.net/keiri-marunage-chan-LP/)
+```
